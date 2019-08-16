@@ -16,7 +16,7 @@ return [
         'type' => 'mysql',
         'host' => getenv("MYSQL_HOST"),
         'port' => 3306,
-        'name' => getenv("MYSQL_USERNAME"),
+        'name' => getenv("MYSQL_DATABASE"),
         'username' => getenv("MYSQL_USERNAME"),
         'password' => getenv("MYSQL_PASSWORD"),
         'engine' => 'InnoDB',
