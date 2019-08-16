@@ -1,15 +1,6 @@
 trigger:
 - master
 
-variables:
-  phpVersion: 7.3
-
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
-  # Root folder under which your composer.json file is available.
-  rootFolder: $(System.DefaultWorkingDirectory)
-
 stages:
 - stage: Build
   displayName: Build stage
@@ -44,3 +35,24 @@ stages:
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'Upload package'
       artifact: drop
+
+- stage: Deploy
+  displayName: 'Deploy Web App'
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - deployment: DeploymentJob
+    pool:
+      vmImage: $(vmImageName)
+    environment: $(environmentName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            displayName: 'Deploy Azure Web App : bandicoot-directus'
+            inputs:
+              azureSubscription: $(azureSubscription)
+              appName: $(webAppName)
+              appType: webAppLinux
+              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
