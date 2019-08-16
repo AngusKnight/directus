@@ -2,7 +2,7 @@
 
 return [
     'app' => [
-        'env' => 'production',
+        'env' => getenv('DIRECTUS_ENVIRONMENT'),
         'timezone' => getenv("TIMEZONE")
     ],
 
@@ -16,7 +16,7 @@ return [
         'type' => 'mysql',
         'host' => getenv("MYSQL_HOST"),
         'port' => 3306,
-        'name' => 'directus',
+        'name' => getenv("MYSQL_USERNAME"),
         'username' => getenv("MYSQL_USERNAME"),
         'password' => getenv("MYSQL_PASSWORD"),
         'engine' => 'InnoDB',
