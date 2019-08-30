@@ -761,6 +761,7 @@ class CoreServicesProvider
 
             $charset = ArrayUtils::get($dbConfig, 'charset', 'utf8mb4');
             $type = ArrayUtils::pull($dbConfig, 'type');
+            $ca = ArrayUtils::pull($dbConfig, 'ssl_ca_file')
 
             // the "database" attribute is named "name"
             // and the "unix_socket" is named "socket"
@@ -773,7 +774,8 @@ class CoreServicesProvider
             if (strtolower($type) === 'mysql') {
                 $defaultConfig = [
                     \PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
-                    \PDO::MYSQL_ATTR_INIT_COMMAND => sprintf('SET NAMES "%s"', $charset)
+                    \PDO::MYSQL_ATTR_INIT_COMMAND => sprintf('SET NAMES "%s"', $charset),
+                    \PDO::MYSQL_ATTR_SSL_CA => $ca
                 ];
             }
 
