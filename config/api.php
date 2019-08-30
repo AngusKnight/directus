@@ -21,6 +21,7 @@ return [
         'password' => getenv("MYSQL_PASSWORD"),
         'engine' => 'InnoDB',
         'charset' => 'utf8mb4',
+        'ssl_ca_file' => '/home/site/wwwroot/config/BaltimoreCyberTrustRoot.crt.pem',
     ],
 
     'cache' => [
