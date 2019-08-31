@@ -13,7 +13,7 @@ return [
     ],
 
     'database' => [
-        'type' => 'mysql',
+        'type' => 'mysqli',
         'host' => getenv("MYSQL_HOST"),
         'port' => 3306,
         'name' => getenv("MYSQL_DATABASE"),
@@ -21,9 +21,10 @@ return [
         'password' => getenv("MYSQL_PASSWORD"),
         'engine' => 'InnoDB',
         'charset' => 'utf8mb4',
-        'options' => array(
-            PDO::MYSQL_ATTR_SSL_CA => '/etc/ssl/certs/Baltimore_CyberTrust_Root.pem',
-            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
+        'use_ssl' => true,
+        'ca_cert' => '/etc/ssl/certs/Baltimore_CyberTrust_Root.pem',
+        'driver_options' => array(
+            MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT => false,
         ),
     ],
 
