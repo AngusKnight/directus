@@ -778,7 +778,7 @@ class CoreServicesProvider
             }
 
             $parameters = array_merge($defaultConfig, $dbConfig, [
-                'driver' => $type ? 'Pdo_' . $type : $type,
+                'driver' => $type ? 'Pdo_' . $type : null,
                 'charset' => $charset
             ]);
 
