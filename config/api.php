@@ -57,12 +57,12 @@ return [
         //    'host'      => 'localhost',
         //    'port'      => 6379
         // ],
-        'pool' => [
-            'adapter'   => 'predis',
-            'host'      => 'bandicoot.redis.cache.windows.net',
-            'port'      => 6379,
-            'password'  => getenv("REDIS_PASSWORD"),
-         ],
+        //'pool' => [
+        //    'adapter'   => 'predis',
+        //    'host'      => 'bandicoot.redis.cache.windows.net',
+        //    'port'      => 6379,
+        //    'password'  => getenv("REDIS_PASSWORD"),
+        // ],
      ],
 
     'storage' => [

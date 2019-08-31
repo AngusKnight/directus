@@ -19,7 +19,6 @@ composer.lock
 !/config/migrations.upgrades.php
 !/config/api_sample.php
 !/config/api.php
-!/config/*.pem
 
 # PHPUnit
 /phpunit.xml
