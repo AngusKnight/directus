@@ -1,0 +1,6 @@
+version: "1"
+rules:
+  - base: master
+    upstream: directus:master
+    mergeMethod: hardreset
+label: ":arrow_heading_down: pull"
