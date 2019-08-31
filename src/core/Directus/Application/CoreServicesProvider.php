@@ -10,6 +10,7 @@ use Cache\Adapter\Memcached\MemcachedCachePool;
 use Cache\Adapter\Memcache\MemcacheCachePool;
 use Cache\Adapter\PHPArray\ArrayCachePool;
 use Cache\Adapter\Redis\RedisCachePool;
+use Cache\Adapter\Predis\PredisCachePool;
 use Cache\Adapter\Void\VoidCachePool;
 use Cocur\Slugify\Slugify;
 use Directus\Application\ErrorHandlers\ErrorHandler;
@@ -921,7 +922,7 @@ class CoreServicesProvider
             if (is_object($poolConfig) && $poolConfig instanceof PhpCachePool) {
                 $pool = $poolConfig;
             } else {
-                if (!in_array($poolConfig['adapter'], ['apc', 'apcu', 'array', 'filesystem', 'memcached', 'memcache', 'redis', 'void'])) {
+                if (!in_array($poolConfig['adapter'], ['apc', 'apcu', 'array', 'filesystem', 'memcached', 'memcache', 'redis', 'predis', 'void'])) {
                     throw new InvalidCacheAdapterException();
                 }
 
@@ -1009,6 +1010,44 @@ class CoreServicesProvider
                     }
 
                     $pool = new RedisCachePool($client);
+                }
+
+                if ($adapter == 'predis') {
+
+                    if (!extension_loaded('predis')) {
+                        throw new InvalidCacheConfigurationException($adapter);
+                    }
+
+                    $host = (isset($poolConfig['host'])) ? $poolConfig['host'] : 'localhost';
+                    $port = (isset($poolConfig['port'])) ? $poolConfig['port'] : 6379;
+                    $password = (isset($poolConfig['password'])) ? $poolConfig['password'] : null;
+                    $socket = (isset($poolConfig['socket'])) ? $poolConfig['socket'] : null;
+
+                    if ($socket) {
+                        $parameters = [
+                            'scheme' => 'unix',
+                            'path' => $socket,
+                        ];
+                    } else {
+                        $parameters = [
+                            'scheme' => 'tcp',
+                            'host' => $host,
+                            'port' => $port,
+                        ];
+                    }
+                    $options = [];
+                    if ($password) {
+                        $options = [
+                            'parameters' => [
+                                'password' => $password,
+                            ],
+                        ];
+                    }
+
+                    $client = new \Predis\Client($parameters, $options);
+                    $client->connect();
+
+                    $pool = new PredisCachePool($client);
                 }
             }
 
