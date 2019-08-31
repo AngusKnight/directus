@@ -775,7 +775,8 @@ class CoreServicesProvider
                 $defaultConfig = [
                     \PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
                     \PDO::MYSQL_ATTR_INIT_COMMAND => sprintf('SET NAMES "%s"', $charset),
-                    \PDO::MYSQL_ATTR_SSL_CA => $ca
+                    \PDO::MYSQL_ATTR_SSL_CA => $ca,
+                    \PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
                 ];
             }
 
